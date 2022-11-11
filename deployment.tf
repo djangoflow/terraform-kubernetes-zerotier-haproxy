@@ -2,7 +2,7 @@ resource "kubernetes_deployment" "this" {
   metadata {
     name      = var.name
     namespace = var.namespace
-    labels = local.selector_labels
+    labels    = local.selector_labels
   }
 
   spec {
@@ -64,6 +64,7 @@ resource "kubernetes_deployment" "this" {
             for_each = var.services
             content {
               container_port = port.value.local_port
+              host_port      = port.value.local_port
             }
           }
           resources {
