@@ -56,31 +56,34 @@ resource "kubernetes_deployment" "this" {
             mount_path = "/var/lib/zerotier-one"
           }
         }
-        container {
-          name              = "haproxy"
-          image             = "haproxy"
-          image_pull_policy = "IfNotPresent"
-          dynamic "port" {
-            for_each = var.services
-            content {
-              container_port = port.value.local_port
-              host_port      = port.value.local_port
+        dynamic container {
+          for_each = len(var.services) == 0 ? [] : [1]
+          content {
+            name              = "haproxy"
+            image             = "haproxy"
+            image_pull_policy = "IfNotPresent"
+            dynamic "port" {
+              for_each = var.services
+              content {
+                container_port = port.value.local_port
+                host_port      = port.value.local_port
+              }
             }
-          }
-          resources {
-            limits = {
-              cpu    = "150m"
-              memory = "512Mi"
+            resources {
+              limits = {
+                cpu    = "150m"
+                memory = "512Mi"
+              }
+              requests = {
+                cpu    = "50m"
+                memory = "64Mi"
+              }
             }
-            requests = {
-              cpu    = "50m"
-              memory = "64Mi"
+            volume_mount {
+              mount_path = "/usr/local/etc/haproxy/haproxy.cfg"
+              sub_path   = "haproxy.cfg"
+              name       = "haproxy-config"
             }
-          }
-          volume_mount {
-            mount_path = "/usr/local/etc/haproxy/haproxy.cfg"
-            sub_path   = "haproxy.cfg"
-            name       = "haproxy-config"
           }
         }
         volume {
