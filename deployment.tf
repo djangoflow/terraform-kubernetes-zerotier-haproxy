@@ -57,7 +57,7 @@ resource "kubernetes_deployment" "this" {
           }
         }
         dynamic container {
-          for_each = len(var.services) == 0 ? [] : [1]
+          for_each = length(keys(var.services)) == 0 ? [] : [1]
           content {
             name              = "haproxy"
             image             = "haproxy"
