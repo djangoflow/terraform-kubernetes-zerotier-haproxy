@@ -18,5 +18,5 @@ variable "services" {
 
 variable "zt_image" {
   type    = string
-  default = "zerotier/zerotier"
+  default = "djangoflow/zerotier"
 }
