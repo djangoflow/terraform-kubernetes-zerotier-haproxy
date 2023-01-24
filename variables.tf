@@ -20,3 +20,8 @@ variable "zt_image" {
   type    = string
   default = "djangoflow/zerotier"
 }
+
+variable "enable_masquerade" {
+  type = bool
+  default = false
+}

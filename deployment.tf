@@ -37,6 +37,10 @@ resource "kubernetes_deployment" "this" {
             name  = "ZEROTIER_IDENTITY_SECRET"
             value = var.zt_identity_secret
           }
+          env {
+            name  = "MASQUERADE"
+            value = var.enable_masquerade
+          }
           resources {
             limits = {
               cpu    = "150m"
