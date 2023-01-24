@@ -18,6 +18,8 @@ resource "kubernetes_deployment" "this" {
 
       spec {
         host_network = true
+        dns_policy = "ClusterFirstWithHostNet"
+
         container {
           name              = "zerotier"
           image             = "zerotier/zerotier"
