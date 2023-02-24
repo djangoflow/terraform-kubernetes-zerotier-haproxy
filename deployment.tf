@@ -18,11 +18,11 @@ resource "kubernetes_deployment" "this" {
 
       spec {
         host_network = true
-        dns_policy = "ClusterFirstWithHostNet"
+        dns_policy   = "ClusterFirstWithHostNet"
 
         container {
           name              = "zerotier"
-          image             = "zerotier/zerotier"
+          image             = var.zt_image
           image_pull_policy = "IfNotPresent"
           args              = var.zt_networks
           security_context {
